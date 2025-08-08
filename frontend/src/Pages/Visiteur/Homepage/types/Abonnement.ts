@@ -4,7 +4,8 @@ export interface Abonnement {
     tarif: number;
     duree: string;
     nbrAdherent: number;
-    statusAbonnement: string;
+    statusAbonnement: 'Actif' | 'Inactif';
+
     createurId: number;
     optionsAbonnement: string;
   }

@@ -3,14 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { parseJwt } from "../../../../utils/jwtUtils";
 
 import Navbar from "../../../../components/Navbar";
-import BackgroundImageCover from "../../../../components/BackgroundImageCover";
 import { useLoginProvider } from "../hooks/useLoginProvider";
 import LoginForm from "../Components/LoginForm";
-
+import { useState } from "react";
 import LoginCover from "../../../../assets/LoginCover.png";
 import LogoBlanc from "../../../../assets/LogoBlanc.png";
+
 const Login: React.FC = () => {
   const [loginError, setLoginError] = React.useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
   const loginMutation = useLoginProvider();
   const navigate = useNavigate();
 
@@ -50,25 +52,28 @@ const Login: React.FC = () => {
       style={{ "--bg-image": `url(${LoginCover})` } as React.CSSProperties}
     >
       <Navbar />
-
-      <div className="flex-grow flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 px-4 py-8">
-        <div className="w-full lg:w-1/2 flex justify-center">
-          <div className="glass-effect rounded-xl p-8 w-full max-w-md shadow-lg">
-            <LoginForm
+      
+      <div className="relative z-10 container mx-auto px-4 pt-20">
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-12 min-h-[calc(100vh-5rem)]">
+          {/* Login Form */}
+          <div className="w-full lg:w-1/2 flex justify-center">
+            <LoginForm 
               onSubmit={handleLogin}
-              isLoading={loginMutation.isPending}
+              isLoading={isLoading}
               error={loginError}
             />
           </div>
-        </div>
 
-        <div className="w-full lg:w-1/2 flex justify-center items-center">
-          <div className="relative w-full max-w-md flex justify-center items-center p-4">
-            <img
-              src={LogoBlanc}
-              alt="Logo"
-              className="w-full max-w-md object-contain animate-pulse-slow"
-            />
+          {/* Logo Section */}
+          <div className="hidden lg:flex lg:w-1/2 justify-center items-center">
+            <div className="relative w-full max-w-md flex flex-col justify-center items-center p-8">
+              <img
+                src={LogoBlanc}
+                alt="Fitness Logo"
+                className="w-120 h-120 mb-6 animate-pulse-slow"
+              />
+              
+            </div>
           </div>
         </div>
       </div>

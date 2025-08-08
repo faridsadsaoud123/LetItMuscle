@@ -1,69 +1,119 @@
-import React, { useRef, useState, useEffect } from "react";
-import logo from "../assets/logo.svg";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import { Menu, X } from "lucide-react";
+import { Button } from "./ui/Button";
+import logo from "../assets/logo.svg";
 const Navbar: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
-  const menuRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-
-  const menuItems = ["Accueil", "Cours", "Contact"];
-  const menuLinks = ["/", "/coursCollectifs", "/contact"];
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    const index = menuLinks.findIndex((link) => location.pathname === link);
-    if (index !== -1) setActiveIndex(index);
-  }, [location.pathname]);
+  const menuItems = [
+    { name: "Accueil", href: "/" },
+    { name: "Cours", href: "/coursCollectifs" },
+    { name: "Contact", href: "/contact" },
+  ];
 
   useEffect(() => {
-    const current = menuRefs.current[activeIndex];
-    if (current) {
-      const rect = current.getBoundingClientRect();
-      const containerRect = current.parentElement?.getBoundingClientRect();
-      setIndicatorStyle({
-        left: rect.left - (containerRect?.left || 0),
-        width: rect.width,
-      });
-    }
-  }, [activeIndex]);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className=" fixed top-0 left-0 w-full h-[10vh] bg-black text-white px-10 py-4 flex justify-between items-center z-[10000]">
-      <img src={logo} alt="Let It Muscle" className="h-12" />
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? "glass-navbar"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="text-2xl font-bold gradient-text">
+              <img src={logo} alt="Logo" className="h-80 w-80" />
+            </div>
+          </Link>
 
-      <ul className="relative hidden md:flex gap-10 text-base font-medium">
-        {menuItems.map((item, index) => (
-          <a
-            key={item}
-            href={menuLinks[index]}
-            ref={(el) => (menuRefs.current[index] = el)}
-            onClick={() => setActiveIndex(index)}
-            className={`relative cursor-pointer transition-colors duration-300 ${
-              activeIndex === index
-                ? "text-[#ea7e38]"
-                : "text-white hover:text-[#ea7e38]"
-            }`}
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-10">
+            {menuItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`relative text-sm font-medium transition-colors duration-300 hover:text-primary ${
+                  location.pathname === item.href
+                    ? "text-primary"
+                    : "text-foreground"
+                }`}
+              >
+                {item.name}
+                {location.pathname === item.href && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary rounded-full" />
+                )}
+              </Link>
+            ))}
+          </div>
+
+          {/* CTA Button */}
+          <Link
+              to="/selection"
+              >
+
+          <div className="hidden md:block">
+            <Button className="btn-hero">
+              S'inscrire
+            </Button>
+          </div>
+              </Link>
+
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2 text-foreground"
+            onClick={() => setIsOpen(!isOpen)}
           >
-            {item}
-          </a>
-        ))}
-        <span
-          className="absolute bottom-[-4px] h-1 bg-[#ea7e38] transition-all duration-300"
-          style={{
-            left: `${indicatorStyle.left}px`,
-            width: `${indicatorStyle.width}px`,
-          }}
-        />
-      </ul>
+            {isOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
 
-      <Link
-        to="/selection"
-        className="bg-[#ea7e38] text-white py-2 px-6 rounded-lg font-semibold transition-colors duration-300 hover:bg-[#d86c2d]"
-      >
-        S'inscrire
-      </Link>
+        {/* Mobile Menu */}
+        {isOpen && (
+          <div className="md:hidden glass-navbar rounded-lg mt-2 p-4 shadow-xl">
+            {menuItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`block py-3 text-sm font-medium transition-colors ${
+                  location.pathname === item.href
+                    ? "text-primary"
+                    : "text-foreground hover:text-primary"
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+            <Link
+              to="/selection"
+              >
+            <div className="pt-4 border-t border-border">
+              <Button className="btn-hero w-full">
+                S'inscrire
+              </Button>
+            </div>
+
+              </Link>
+          </div>
+        )}
+      </div>
     </nav>
   );
 };

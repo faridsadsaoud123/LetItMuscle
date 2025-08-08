@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { z } from "zod";
 import { FaGoogle, FaApple } from "react-icons/fa";
-
-import { Input } from "../../../../components/ui/Input";
-import { Button } from "../../../../components/ui/Button";
-import { Alert } from "../../../../components/ui/Alert";
+import { CustomInput as Input } from "./ui/CustomInput";
+import { Button } from "./ui/button";
+import { Alert } from "./ui/alert";
 import { useNavigate } from "react-router-dom";
-import { CustomInput } from "../../../../components/ui/CustomInput";
+
 const loginSchema = z.object({
   email: z.string().email({ message: "Email invalide" }),
   password: z

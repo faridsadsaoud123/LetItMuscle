@@ -2,37 +2,120 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fitness Gym Management Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Design Tokens (colors, fonts, gradients, shadows) */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 210 6% 8%;
+    --foreground: 0 0% 100%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 213 7% 12%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover: 213 7% 12%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 250 95% 76%;
+    --primary: 25 95% 53%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 214 13% 15%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 214 13% 15%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 28 93% 57%;
+    --accent: 25 95% 53%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 28 93% 57%;
+    --border: 215 16% 20%;
+    --input: 215 16% 20%;
+    --ring: 25 95% 53%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* New tokens from second file */
+    --success: 142 76% 36%;
+    --success-foreground: 210 40% 98%;
+
+    --warning: 45 93% 57%;
+    --warning-foreground: 220 13% 10%;
+
+    --info: 221 83% 53%;
+    --info-foreground: 210 40% 98%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(25 95% 53%), hsl(20 85% 50%));
+    --gradient-hero: linear-gradient(135deg, hsl(25 95% 53%) 0%, hsl(28 93% 67%) 100%);
+
+    --gradient-secondary: linear-gradient(135deg, hsl(220 13% 18%), hsl(220 13% 25%));
+
+    /* Shadows */
+    --shadow-glow: 0 0 40px hsl(25 95% 53% / 0.3);
+    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+    --shadow-elevated: 0 8px 40px hsl(220 13% 5% / 0.6);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Fitness brand colors */
+    --fitness-orange: 25 95% 53%;
+    --fitness-dark: 213 7% 12%;
+    --fitness-darker: 210 6% 8%;
+
+    /* Sidebar specific */
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 25 95% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 25 95% 53%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 215 16% 20%;
+    --sidebar-ring: 25 95% 53%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -44,36 +127,53 @@
   body {
     @apply bg-background text-foreground;
   }
-
-  .editor-wrapper::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  .editor-wrapper::-webkit-scrollbar-track {
-    @apply bg-secondary/50;
-  }
-
-  .editor-wrapper::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full hover:bg-muted-foreground/50 transition-colors;
-  }
-
-
 }
 
-@layer utilities {
+@layer components {
+  /* Hero button style */
+  .btn-hero {
+    @apply bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold px-6 py-3 rounded-lg;
+    @apply hover:shadow-lg hover:scale-105 transition-all duration-300;
+    @apply shadow-md;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  /* Glass effect for forms */
   .glass-effect {
-    @apply bg-black/40 backdrop-blur-md border border-white/10;
+    @apply bg-black/30 backdrop-blur-md border border-white/10;
   }
-  
-  .gradient-overlay {
-    @apply bg-gradient-to-r from-black/70 to-black/50;
+
+  /* Glass effect for navbar */
+  .glass-navbar {
+    @apply bg-background/80 backdrop-blur-md border-b border-border;
   }
-  
-  /* Style spécifique pour la page de connexion */
-  .login-page {
-    @apply min-h-screen bg-cover bg-center;
-    background-color: #111827;
-    background-image: var(--bg-image, none);
+
+  /* Brand orange color */
+  .text-brand-orange {
+    color: hsl(var(--primary));
+  }
+
+  /* Animations */
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s infinite;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

@@ -3,8 +3,9 @@ import hero from "../../../assets/hero.png";
 import Navbar from "../../../components/Navbar";
 import Nosunivers from "./Nosunivers";
 import Footer from "../../../components/Footer/Footer";
-import Abonnement from "./Abonnement";
-import WhyUs from "./WhyUs";
+import PricingSection from "./Abonnement";
+import WhyUsSection from "./WhyUsSection";
+import HeroSection from "../../../components/HeroSection";
 const Container = styled.div`
   position: relative;
   background-color: black;
@@ -65,29 +66,12 @@ const Div = styled.div`
 
 export default function Home() {
   return (
-    <>
+    <div className="min-h-screen bg-background">
       <Navbar />
-      <Container>
-        <Wrapper>
-          <Cover src={hero} alt="Home Image" />
-          <Group>
-            <Title>Sculptez votre corps,libérez votre esprit</Title>
-            <Paragraph>
-              Let It Muscle est bien plus qu'une simple salle de sport. C'est un
-              espace dédié au bien-être, où vous trouverez des équipements de
-              pointe, des cours dynamiques et une équipe de coachs passionnés
-              pour vous accompagner dans votre quête d'une meilleure forme
-              physique et mentale.
-            </Paragraph>
-          </Group>
-        </Wrapper>
-        <Div />
-        <Abonnement />
-        <WhyUs />
-        <FooterWrapper>
-          <Footer />
-        </FooterWrapper>
-      </Container>
-    </>
+      <HeroSection />
+      <WhyUsSection />
+      <PricingSection />
+      <Footer />
+    </div>
   );
 }

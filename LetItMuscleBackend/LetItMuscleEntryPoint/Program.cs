@@ -78,6 +78,13 @@ builder.Services.AddAuthentication(options =>
         RoleClaimType = ClaimTypes.Role,
         NameClaimType = ClaimTypes.Email // Pour associer automatiquement l'e-mail à User.Identity.Name
     };
+}).AddGoogle("Google", options =>
+{
+    var googleConfig = builder.Configuration.GetSection("Google");
+    options.ClientId = googleConfig["ClientId"];
+    options.ClientSecret = googleConfig["ClientSecret"];
+    
+    options.CallbackPath = "/signin-google";
 });
 
 builder.Services.AddAuthorization(); // Ajout du service d'autorisation basée sur les rôles
